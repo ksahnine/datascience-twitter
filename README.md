@@ -10,7 +10,6 @@ Ils permettent par exemple de :
 
 - visualiser l'évolution du nombre de tweets et retweets par heure
 [![Timeseries du hashtag #TelAvivSurSeine](http://ksahnine.github.io/assets/article_images/TelAv_timeseries.png)](/assets/article_images/TelAv_timeseries.png)
-
 - identifier les comptes les plus retweetés ou mentionnés
 - identifier les comptes ayant le plus tweeté ou retweeté
 - identifier les photos les plus diffusées
