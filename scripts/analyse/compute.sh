@@ -89,10 +89,20 @@ csv_graph_sources() {
     echo "Generation des fichiers iphone.csv, android.csv, web.csv"
 }
 
-if [ $# -lt 1 ]
-then
+usage() {
     echo "Routines disponibles :"
     typeset -F | sed 's/declare -f/  -/'
+}
+
+if [ $# -lt 1 ]
+then
+    usage
 else
+    if [ -z "`typeset -F | grep \"$1\"`" ]
+    then
+        echo "ERREUR. Parametres incorrects. "
+        usage
+        exit 1
+    fi
     eval $1 \"$2\" \"$3\" $4
 fi
