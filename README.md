@@ -6,7 +6,7 @@ Ces résutats sont le fruit d'une analyse rationnelle et distanciée des tweets 
 
 Ce repository contient le code des outils que j'ai développé pour mener cette analyse.
 
-Ils permettent par exemple de :
+En lisant [cet autre article](http://ksahnine.github.io/datascience/unix/bigdata/2015/08/19/exploration-donnees-twitter.html), vous apprendrez à :
 
 - visualiser l'évolution du nombre de tweets et retweets par heure
 [![Timeseries du hashtag #TelAvivSurSeine](http://ksahnine.github.io/assets/article_images/TelAv_timeseries.png)](/assets/article_images/TelAv_timeseries.png)
