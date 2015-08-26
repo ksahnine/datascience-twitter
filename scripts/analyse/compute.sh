@@ -9,6 +9,15 @@ nb_tweets() {
     jq ".|select(.created_at|match(\"$2\"))|.created_at" $1 | wc -l
 }
 
+nb_twittos() {
+    if [ $# -ne 2 ]
+    then
+        echo "Exemple : nb_twittos \"data/*.json\"  \"Tue Aug 11 2[0-2].*\""
+        exit 1
+    fi
+    jq "select(.created_at|match(\"$2\"))|.user.screen_name" $1 | sort -u | wc -l
+}
+
 tab_retweeted_users() {
     if [ $# -ne 3 ]
     then
@@ -16,6 +25,15 @@ tab_retweeted_users() {
         exit 1
     fi
     (echo "Nb_rtweet Nb_Followers Compte"; jq --raw-output "[.|select(.created_at|match(\"$2\"))|.retweeted_status.user.followers_count,.retweeted_status.user.screen_name] | @csv" $1 | tr ',' ' ' | sed '/^ *$/d;/^,$/d' | sort -k2 | uniq -cf1 | sort -k1rn | sed -e 's/^ *//' | head -$3 ) | csvlook -d' '
+}
+
+tab_tweeted_users() {
+    if [ $# -ne 3 ]
+    then
+        echo "Exemple : tab_tweeted_users \"data/*.json\" \"Tue Aug 11 2[0-2].*\" 5"
+        exit 1
+    fi
+    (echo "Nb_tweet Nb_Followers Compte"; jq --raw-output "[.|select(.created_at|match(\"$2\"))|.user.followers_count,.user.screen_name] | @csv" $1 | tr ',' ' ' | sed '/^ *$/d;/^,$/d' | sort -k2 | uniq -cf1 | sort -k1rn | sed -e 's/^ *//' | head -$3 ) | csvlook -d' '
 }
 
 tab_mentions() {
@@ -34,6 +52,15 @@ tab_hashtag() {
         exit 1
     fi
     (echo "Nb,Hashtag"; jq ".|select(.created_at|match(\"$2\"))|.entities.hashtags[].text" $1 | tr '[A-Z]' '[a-z]' | tr '[àâäéèêëîïôöùûü]' '[aaaeeeeiioouuu]' | sort | uniq -c | sed -e 's/^ *//;s/ /,/' | sort -rn | head -$3 ) | csvlook
+}
+
+tab_top_photos() {
+    if [ $# -ne 2 ]
+    then
+        echo "Exemple : tab_top_photos \"data/*.json\" 5"
+        exit 1
+    fi
+    (echo "Nb occ,Photo"; jq --raw-output 'select(.entities.media!=null)|select(.entities.media[].type="photo")|.entities.media[].media_url' $1 | sort | uniq -c | sort -rn | sed 's/^ *//;s/ /,/' | head -$2 ) | csvlook
 }
 
 tab_sources() {
@@ -72,9 +99,19 @@ csv_tweeted_users() {
     jq --raw-output "[.|select(.created_at|match(\"$2\"))|.user.followers_count,.user.screen_name,.user.id] | @csv" $1 | tr ',' ' ' | sed '/^ *$/d;/^,$/d' | sort -k2 | uniq -cf1 | sort -k1rn | sed -e 's/^ *//;s/\"//g' | head -$3 | awk '{ print $4 "," $3 "," $2 } '
 }
 
+csv_graph_tweets() {
+    LANG=en_US
+    if [ $# -ne 2 ]
+    then
+        echo "Exemple : csv_graph_tweets \"data/*.json\""
+        exit 1
+    fi
+    jq ".created_at" $1 | xargs -I ? date -j -f "%a %h %d %H:%M:%S %z %Y" "?" "+%Y-%m-%d_%H:00:00" | sort | uniq -c | sed -e 's/^ *//;s/ /,/' | awk -F"," '{ print $2 "," $1}' 
+}
+
 csv_graph_sources() {
     LANG=en_US
-    if [ $# -ne 1 ]
+    if [ $# -ne 2 ]
     then
         echo "Exemple : csv_graph_sources \"data/*.json\""
         exit 1
