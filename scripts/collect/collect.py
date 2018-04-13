@@ -17,10 +17,10 @@ import sys
 # Vecteurs d'accreditation a renseigner
 # apres creation dans le gestionnaire d'applications Twitter 
 # cf : https://apps.twitter.com/
-consumer_key = "ahsykjRvBLO3uyFI94upe3vg8"
-consumer_secret = "a4nDFX6cCbV59NsJVhlxAfIRF7ebWhbwu4exUzwy3uXSN05PeE"
-access_token = "16409037-jmkIAhmMQEzPwjZ1M7Ht2rzh1a7kMRYPCyCdoRjz4"
-access_token_secret = "IdVZJ7OJtwhQQgrVs33HoURAoDHb9W3PbSc9nEwBQuYgA"
+consumer_key = ""
+consumer_secret = ""
+access_token = ""
+access_token_secret = ""
 
 # Constantes
 maxTweets = 10000000   # Nombre de tweet max a recuperer
@@ -105,7 +105,7 @@ def main(argv):
              max_id = new_tweets[-1].id
          except tweepy.TweepError as e:
              print("Une erreur est intervenue. Pour poursuivre le processus de collecte, relancer la commande suivante :")
-             print("python collect.py -s \"{0}\" -o \"{1}\" -m \"{2}\"".format(search_query, output_dir, max_id))
+             print("python collect.py -s {0} -o {1} -u {2}".format(search_query, output_dir, max_id))
              print("")
              print("Error : " + str(e))
              break
