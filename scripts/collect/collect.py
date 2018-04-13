@@ -105,7 +105,7 @@ def main(argv):
              max_id = new_tweets[-1].id
          except tweepy.TweepError as e:
              print("Une erreur est intervenue. Pour poursuivre le processus de collecte, relancer la commande suivante :")
-             print("python collect.py -s \"{0}\" -o \"{1}\" -u \"{2}\"".format(search_query, output_dir, max_id))
+             print("python collect.py -s \"{0}\" -o \"{1}\" -m \"{2}\"".format(search_query, output_dir, max_id))
              print("")
              print("Error : " + str(e))
              break
